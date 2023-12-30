@@ -1,0 +1,10 @@
+/* CourseCard.module.css */
+.cardContainer {
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  /* Add additional styles as needed */
+  
