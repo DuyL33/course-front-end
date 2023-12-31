@@ -1,5 +1,5 @@
   import { useEffect, useState } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Appbar from './components/Appbar';
 import CourseDetail from './components/CourseDetails';
@@ -38,22 +38,20 @@ import api from './service/Api';
 
     return (
       <div className="App">
-        <Appbar/>
+        <Appbar />
         <BrowserRouter>
-
-        <div>
-        
-          <h1>Courses</h1>
-          <Routes>
-          <Route path="/" element={<CourseList getCourse ={getCourse} courses={courses} />}></Route>
-          <Route path="/courses/:courseNumber" element={<CourseDetail getCourse ={getCourse} course ={course}/>} />
-          </Routes>
-        </div>
-
-      </BrowserRouter>
+          <div>
+            {/* Link the "Courses" header to the home page */}
+            <Link to="/course-front-end">
+              <h1>Courses</h1>
+            </Link>
+            <Routes>
+              <Route path="/course-front-end" element={<CourseList getCourse={getCourse} courses={courses} />} />
+              <Route path="/courses/:courseNumber" element={<CourseDetail getCourse={getCourse} course={course} />} />
+            </Routes>
+          </div>
+        </BrowserRouter>
       </div>
-
-      
     );
   }
 
