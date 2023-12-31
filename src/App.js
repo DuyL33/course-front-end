@@ -14,7 +14,7 @@ import api from './service/Api';
 
     const getCourses = async () =>{
       try{
-        const response = await api.get('http://localhost:8080/CS/Courses');
+        const response = await api.get('https://cs-gmu-courses.onrender.com/CS/Courses');
         console.log(response.data);
         setCourses(response.data);
       }catch(err){
@@ -27,7 +27,7 @@ import api from './service/Api';
     
     const getCourse = async(courseNumber) =>{
       try {
-        const response = await api.get(`http://localhost:8080/CS/Courses/${courseNumber}`);
+        const response = await api.get(`https://cs-gmu-courses.onrender.com/CS/Courses/${courseNumber}`);
         console.log(response.data); // Log the API response
         const singleCourse = response.data;
         setCourse(singleCourse);  

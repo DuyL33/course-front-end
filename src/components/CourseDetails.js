@@ -12,7 +12,7 @@ const CourseDetail = ({ course, getCourse }) => {
   const handleReviewSubmit = async () => {
     try {
       // Send the new review data to the server
-      await api.post(`http://localhost:8080/CS/Courses/Review`, newReview);
+      await api.post(`https://cs-gmu-courses.onrender.com/CS/Courses/Review`, newReview);
       // After submitting the review, fetch the updated course details
       getCourse(course.number);
     } catch (error) {
@@ -23,7 +23,7 @@ const CourseDetail = ({ course, getCourse }) => {
   const handleDeleteReview = async (createdTime) => {
     try {
       // Send the delete request to the server using the createdTime directly
-      await api.delete(`http://localhost:8080/CS/Courses/Review/${encodeURIComponent(createdTime)}`);
+      await api.delete(`https://cs-gmu-courses.onrender.com/CS/Courses/Review/${encodeURIComponent(createdTime)}`);
   
       // After deleting the review, fetch the updated course details
       getCourse(course.number);
