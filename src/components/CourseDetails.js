@@ -5,6 +5,7 @@ import './CourseDetails.css'; // Import your CSS file
 
 const CourseDetail = ({ course, getCourse }) => {
   const [newReview, setNewReview] = useState({
+    difficulty: '',
     body: '',
     number: ''
   });
@@ -47,6 +48,7 @@ const CourseDetail = ({ course, getCourse }) => {
             <ul className="review-list">
               {course.review_ids.map((review, index) => (
                 <li key={index} className="review-item">
+                  <p>Difficulty : {review.difficulty}/10</p>
                   <p>Comment: {review.body}</p>
                   {/* Delete button for each review */}
                   <button className="del-btn" onClick={() => handleDeleteReview(review.created)}>Delete</button>
@@ -60,6 +62,14 @@ const CourseDetail = ({ course, getCourse }) => {
           {/* Form to add a new review */}
           <h4>Add a Review:</h4>
           <form className="review-form">
+          <label>
+          <h4>Difficulty:</h4>
+              <input type="number"
+                value={newReview.difficulty}
+                onChange={(e) => setNewReview({ ...newReview, difficulty: e.target.value, number: course.number })}
+              />
+            </label>
+          <h4>Comment:</h4>
             <label>
               <textarea
                 className="text-box"
