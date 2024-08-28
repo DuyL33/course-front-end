@@ -205,7 +205,7 @@ const CourseDetail = ({ course, getCourse }) => {
 
 
 
-        <Link to="/course-front-end" className="back-link">
+        <Link to="/coursehub" className="back-link">
           Back to Courses
       </Link>
 
