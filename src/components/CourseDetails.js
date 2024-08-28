@@ -14,6 +14,7 @@ import './CourseDetails.css';
 
 const CourseDetail = ({ course, getCourse }) => {
   const [newReview, setNewReview] = useState({
+    grade: '',
     difficulty: '',
     body: '',
     number: ''
@@ -105,12 +106,15 @@ const CourseDetail = ({ course, getCourse }) => {
                     <Avatar style={{margin:'0 auto'}}>{review.difficulty}</Avatar>
                   </Grid>
                   <Grid item xs={9} md={9}>
+                    <Typography variant="body1" gutterBottom style={{fontWeight:'bold'}}>
+                      Grade: {review.grade}
+                    </Typography>
                     <Typography variant="body2" gutterBottom>
                       {review.body}
                     </Typography>
                   </Grid>
                   <Grid item xs={2} md={2}>
-                    <Typography variant="body2" gutterBottom>
+                    <Typography variant="body2" gutterBottom style={{fontWeight:'bold'}}>
                       {formatDate(review.created)}
                     </Typography>
                   </Grid>
@@ -140,7 +144,7 @@ const CourseDetail = ({ course, getCourse }) => {
                   What was your grade?
           </Typography>
                 <InputLabel id="demo-simple-select-label">Grade</InputLabel>
-                <Select style={{ width: '100%' }} label="Grade">
+                <Select style={{ width: '100%' }} label="Grade" onChange={(e) => setNewReview({ ...newReview, grade: e.target.value, number: course.number })}>
                   <MenuItem value={"A+"}>A+</MenuItem>
                   <MenuItem value={"A"}>A</MenuItem>
                   <MenuItem value={"A-"}>A</MenuItem>
