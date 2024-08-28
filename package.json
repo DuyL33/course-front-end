@@ -1,6 +1,6 @@
 {
   "homepage": "https://duyl33.github.io/coursehub/",
-  "name": "course-review-front",
+  "name": "coursehub",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
