@@ -1,6 +1,4 @@
-.App {
-  text-align: center;
-}
+
 
 .App-logo {
   height: 40vmin;
@@ -23,8 +21,11 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
-
+a {
+  text-decoration: none; /* This removes underlines from all anchor tags */
+}
 .App-link {
+  text-decoration: none;
   color: #61dafb;
 }
 

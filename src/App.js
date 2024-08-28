@@ -1,6 +1,6 @@
-import { createTheme, ThemeProvider } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Appbar from './components/Appbar';
 import CourseDetail from './components/CourseDetails';
@@ -9,8 +9,12 @@ import api from './service/Api';
 
 const theme = createTheme({
   palette: {
+    mode: 'light',
+    primary: {
+      main: '#172808',
+    },
     secondary: {
-      main: '#172808', // Adjust the color shade as needed
+      main: '#f50057',
     },
   },
 });
@@ -49,11 +53,11 @@ function App() {
       
         <BrowserRouter>
         <Appbar courses={courses} getCourse={getCourse} />
-          <div>
-            {/* Link the "Courses" header to the home page */}
-            <Link to="/course-front-end">
+          <div style={{marginTop: 20, margin: 10}}>
+
+            {/* <Link to="/course-front-end">
               <h1>Courses</h1>
-            </Link>
+            </Link> */}
             
             <Routes>
               
