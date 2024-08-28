@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/coursehub/static/css/main.f7832c88.css",
+    "main.js": "/coursehub/static/js/main.26c8f9e3.js",
+    "static/js/787.5a9d0d09.chunk.js": "/coursehub/static/js/787.5a9d0d09.chunk.js",
+    "index.html": "/coursehub/index.html",
+    "main.f7832c88.css.map": "/coursehub/static/css/main.f7832c88.css.map",
+    "main.26c8f9e3.js.map": "/coursehub/static/js/main.26c8f9e3.js.map",
+    "787.5a9d0d09.chunk.js.map": "/coursehub/static/js/787.5a9d0d09.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f7832c88.css",
+    "static/js/main.26c8f9e3.js"
+  ]
+}
