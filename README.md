@@ -9,3 +9,8 @@ To run:
 npm install --legacy-peer-deps
 
 npm start
+
+
+To deploy
+
+First, push to remote. Then, npm run deploy 
