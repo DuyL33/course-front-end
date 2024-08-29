@@ -1,5 +1,4 @@
-import { Grid } from '@material-ui/core';
-import { Avatar, Button, InputLabel, MenuItem, Paper, Select, Slider, TextField } from '@mui/material';
+import { Avatar, Button, Grid, InputLabel, MenuItem, Paper, Select, Slider, TextField } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Pagination from '@mui/material/Pagination';
@@ -8,9 +7,8 @@ import Typography from '@mui/material/Typography';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../service/Api';
+import { useAuth } from './AuthContext';
 import './CourseDetails.css';
-
-
 
 const CourseDetail = ({ course, getCourse }) => {
   const [newReview, setNewReview] = useState({
@@ -19,7 +17,8 @@ const CourseDetail = ({ course, getCourse }) => {
     body: '',
     number: ''
   });
-
+  const { roles } = useAuth();
+  console.log(roles);
   const handleReviewSubmit = async () => {
     try {
       // Send the new review data to the server
@@ -31,15 +30,37 @@ const CourseDetail = ({ course, getCourse }) => {
     }
   };
   const [currentPage, setCurrentPage] = useState(1);
+  // const handleDeleteReview = async (createdTime) => {
+  //   try {
+  //     // Send the delete request to the server using the createdTime directly
+  //     await api.delete(`https://cs-gmu-courses.onrender.com/CS/Courses/Review/${encodeURIComponent(createdTime)}`);
+
+  //     // After deleting the review, fetch the updated course details
+  //     getCourse(course.number);
+  //   } catch (error) {
+  //     console.error('Error deleting review:', error);
+  //   }
+  // };
   const handleDeleteReview = async (createdTime) => {
     try {
-      // Send the delete request to the server using the createdTime directly
-      await api.delete(`https://cs-gmu-courses.onrender.com/CS/Courses/Review/${encodeURIComponent(createdTime)}`);
-
+      const token = localStorage.getItem('jwt');
+      const response = await fetch(`https://cs-gmu-courses.onrender.com/CS/Courses/Review/${encodeURIComponent(createdTime)}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to delete review');
+      }
       // After deleting the review, fetch the updated course details
-      getCourse(course.number);
+     getCourse(course.number);
+      // Handle successful deletion
+      console.log('Review deleted successfully');
     } catch (error) {
-      console.error('Error deleting review:', error);
+      console.error(error.message);
     }
   };
   
@@ -68,8 +89,9 @@ const CourseDetail = ({ course, getCourse }) => {
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
-  return (
 
+  return (
+ 
     <Card variant="outlined" sx={{ margin: '10px' }}>
       <CardContent>
         <Grid container spacing={2}>
@@ -78,7 +100,7 @@ const CourseDetail = ({ course, getCourse }) => {
               {course.number} - {course.name}
             </Typography>
           </Grid>
-          <Grid item xs={0} md={1} style={{ textAlign: 'left' }}>
+          <Grid item xs={false} md={1} style={{ textAlign: 'left' }}>
             <Avatar
               alt="Remy Sharp"
               sx={{ width: 56, height: 56 }}
@@ -88,9 +110,6 @@ const CourseDetail = ({ course, getCourse }) => {
           </Grid>
         </Grid>
 
-        {/* <Typography variant="body1" gutterBottom>
-          {course.description}
-        </Typography> */}
         <Grid container spacing={10}>
           <Grid item xs={4} md={8}>
 
@@ -120,11 +139,17 @@ const CourseDetail = ({ course, getCourse }) => {
                   </Grid>
 
                   </Grid>
-
                   
-
-
-                  {/* <button className="del-btn" onClick={() => handleDeleteReview(review.created)}>Delete</button> */}
+                  {roles && roles.includes('ROLE_ADMIN') && (
+                    <Button 
+                    variant="outlined" 
+                    color="error"
+                    onClick={() => handleDeleteReview(review.created)}
+                    >
+                    Delete
+                  </Button>
+                  )}
+                  
                 </Paper>
               ))}
               <Pagination
@@ -137,14 +162,17 @@ const CourseDetail = ({ course, getCourse }) => {
             </Stack>
           </Grid>
 
-          <Grid item xs={0} md={4}>
+          <Grid item xs={false} md={4}>
             <Stack spacing={2}>
               <Paper className="review-item" elevation={5} sx={{ padding: 2 }} style={{ width: '90%' }}>
                 <Typography variant="subtitle2" gutterBottom>
                   What was your grade?
           </Typography>
                 <InputLabel id="demo-simple-select-label">Grade</InputLabel>
-                <Select style={{ width: '100%' }} label="Grade" onChange={(e) => setNewReview({ ...newReview, grade: e.target.value, number: course.number })}>
+                <Select style={{ width: '100%' }}
+                 label="Grade"
+                 value={newReview.grade || ''}
+                 onChange={(e) => setNewReview({ ...newReview, grade: e.target.value, number: course.number })}>
                   <MenuItem value={"A+"}>A+</MenuItem>
                   <MenuItem value={"A"}>A</MenuItem>
                   <MenuItem value={"A-"}>A</MenuItem>
@@ -158,6 +186,7 @@ const CourseDetail = ({ course, getCourse }) => {
                   <MenuItem value={"D"}>D</MenuItem>
                   <MenuItem value={"D-"}>D-</MenuItem>
                   <MenuItem value={"F"}>F</MenuItem>
+
                 </Select>
               </Paper>
               <Paper className="review-item" elevation={5} sx={{ padding: 2 }} style={{ width: '90%' }}>
@@ -168,12 +197,12 @@ const CourseDetail = ({ course, getCourse }) => {
                   aria-label="Temperature"
                   defaultValue={0}
                   valueLabelDisplay="auto"
-                  shiftStep={1}
+                  shiftstep={1}
                   step={0.5}
                   marks
                   min={0}
                   max={5}
-                  value={newReview.difficulty}
+                  value={newReview.difficulty || 0}
                   onChange={(e) => setNewReview({ ...newReview, difficulty: e.target.value, number: course.number })}
                   style={{ width: '100%' }}
                 />

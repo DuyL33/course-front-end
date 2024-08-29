@@ -1,7 +1,8 @@
-import AccountCircle from '@mui/icons-material/AccountCircle';
+import AccountCircle from '@mui/icons-material/AccountCircle'; // Import your icon
 import AppBar from '@mui/material/AppBar';
 import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -11,6 +12,9 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
+
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -26,16 +30,6 @@ const Search = styled('div')(({ theme }) => ({
     width: '40%',
   },
 }));
-
-// const SearchIconWrapper = styled('div')(({ theme }) => ({
-//   padding: theme.spacing(0, 2),
-//   height: '100%',
-//   position: 'absolute',
-//   pointerEvents: 'none',
-//   display: 'flex',
-//   alignItems: 'center',
-//   justifyContent: 'center',
-// }));
 
 const StyledAutocomplete = styled(Autocomplete)(({ theme }) => ({
   '& .MuiTextField-root': {
@@ -61,13 +55,21 @@ const StyledAutocomplete = styled(Autocomplete)(({ theme }) => ({
   },
 }));
 
-export default function Appbar({courses, getCourse}) {
+export default function Appbar({ courses, getCourse }) {
+  const { loggedIn, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
+
   const navigate = useNavigate();
   const handleCourseClick = async (courseNumber) => {
     await getCourse(courseNumber);
     navigate(`/courses/${courseNumber}`);
 
-    };
+  };
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -130,7 +132,8 @@ export default function Appbar({courses, getCourse}) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={handleProfileMenuOpen}>
+
+      {/* <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
           aria-label="account of current user"
@@ -141,7 +144,7 @@ export default function Appbar({courses, getCourse}) {
           <AccountCircle />
         </IconButton>
         <p>Profile</p>
-      </MenuItem>
+      </MenuItem> */}
     </Menu>
   );
 
@@ -149,51 +152,53 @@ export default function Appbar({courses, getCourse}) {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="primary">
         <Toolbar>
-        <Link to="/course-front-end" className="back-link" style={{color: 'white'}}>
-          <Typography
+          <Link to="/coursehub" style={{ textDecoration: 'none' }}>
+            <Typography
               variant="h6"
               noWrap
               component="div"
-              sx={{ display: { xs: 'none', sm: 'block' } }}
+              sx={{ display: { xs: 'none', sm: 'block' }, color: 'white' }}
             >
               CourseHub
             </Typography>
           </Link>
-          
+
 
           <Search>
-          <StyledAutocomplete
-            id="search-bar"
-            freeSolo
-            options={courses.map((option) => option.number + " " + option.name)}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Search for courses"
-              />
-            )}
-            onInputChange={(event, value) => {
-              const courseNumber = value.split(" ")[0]; // Extract course number from input value
-              if (courseNumber) {
-                handleCourseClick(courseNumber);
-              }
-            }}
-          />
+            <StyledAutocomplete
+              id="search-bar"
+              freeSolo
+              options={courses.map((option) => option.number + " " + option.name)}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Search for courses"
+                />
+              )}
+              onInputChange={(event, value) => {
+                const courseNumber = value.split(" ")[0]; // Extract course number from input value
+                if (courseNumber) {
+                  handleCourseClick(courseNumber);
+                }
+              }}
+            />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
+            {loggedIn ? (
+              <>
+                <IconButton size="large" edge="end" aria-label="account of current user" color="inherit">
+                  <AccountCircle />
+                </IconButton>
+                <Button color="inherit" onClick={handleLogout}>Logout</Button>
+              </>
+            ) : (
+                <Link to="/login" style={{ color: 'white' }}>
+                  <Typography variant="h6" noWrap component="div">
+                    Log In
+                </Typography>
+                </Link>
+              )}
           </Box>
         </Toolbar>
       </AppBar>

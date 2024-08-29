@@ -3,10 +3,11 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Appbar from './components/Appbar';
+import { AuthProvider } from './components/AuthContext';
 import CourseDetail from './components/CourseDetails';
 import CourseList from './components/CourseList';
+import Login from './components/Login';
 import api from './service/Api';
-
 const theme = createTheme({
   palette: {
     mode: 'light',
@@ -49,25 +50,24 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <AuthProvider>
       <div className="App">
       
         <BrowserRouter>
+
         <Appbar courses={courses} getCourse={getCourse} />
           <div style={{marginTop: 20, margin: 10}}>
-
-            {/* <Link to="/course-front-end">
-              <h1>Courses</h1>
-            </Link> */}
             
             <Routes>
-              
               <Route path="/coursehub" element={<CourseList getCourse={getCourse} courses={courses} />} />
               <Route path="/courses/:courseNumber" element={<CourseDetail getCourse={getCourse} course={course} />} />
+              <Route path="/login" element={<Login />} />
             </Routes>
           </div>
         </BrowserRouter>
 
       </div>
+      </AuthProvider>
     </ThemeProvider>
   );
 }

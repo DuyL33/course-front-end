@@ -1,5 +1,5 @@
 // CourseList.js
-import { Grid } from '@material-ui/core';
+import { Grid } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CourseCard from './CourseCard';

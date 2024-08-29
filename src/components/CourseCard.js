@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography } from '@material-ui/core'; // Import Card components from Material-UI
+import { Card, CardContent, Typography } from '@mui/material'; // Import Card components from Material-UI
 import React from 'react';
 const CourseCard = ({ course }) => {
   return (
