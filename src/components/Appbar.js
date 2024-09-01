@@ -67,7 +67,7 @@ export default function Appbar({ courses, getCourse }) {
   const navigate = useNavigate();
   const handleCourseClick = async (courseNumber) => {
     await getCourse(courseNumber);
-    navigate(`/courses/${courseNumber}`);
+    navigate(`/coursehub/${courseNumber}`);
 
   };
   const [anchorEl, setAnchorEl] = React.useState(null);

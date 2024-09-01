@@ -12,7 +12,7 @@ const CourseList = ({ courses, getCourse }) => {
     <Grid container spacing={2}>
       {courses.map((course, index) => (
         <Grid item key={index} xs={12} sm={6} md={4} lg={3} style={{ height: '200px' }}>
-          <Link to={`/courses/${course.number}` } onClick={() => handleCourseClick(course.number)}> {/* Update to include Link */}
+          <Link to={`/coursehub/${course.number}` } onClick={() => handleCourseClick(course.number)}> {/* Update to include Link */}
             <CourseCard course={course} />
           </Link>
         </Grid>

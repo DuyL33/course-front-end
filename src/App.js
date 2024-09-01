@@ -60,7 +60,7 @@ function App() {
             
             <Routes>
               <Route path="/coursehub" element={<CourseList getCourse={getCourse} courses={courses} />} />
-              <Route path="/courses/:courseNumber" element={<CourseDetail getCourse={getCourse} course={course} />} />
+              <Route path="/coursehub/:courseNumber" element={<CourseDetail getCourse={getCourse} course={course} />} />
               <Route path="/login" element={<Login />} />
             </Routes>
           </div>
