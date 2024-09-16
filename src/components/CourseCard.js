@@ -6,7 +6,7 @@ const CourseCard = ({ course }) => {
     style={{
       height: '100%' ,
       textAlign: 'left',
-
+      borderRadius: '1rem'
     }}>
       <CardContent>
         <Typography variant="h5" style={{ textDecoration: 'none' }}>{course.number}</Typography>

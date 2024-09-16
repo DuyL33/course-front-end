@@ -8,6 +8,7 @@ import CourseDetail from './components/CourseDetails';
 import CourseList from './components/CourseList';
 import Login from './components/Login';
 import api from './service/Api';
+
 const theme = createTheme({
   palette: {
     mode: 'light',

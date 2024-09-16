@@ -32,20 +32,18 @@ const Search = styled('div')(({ theme }) => ({
 }));
 
 const StyledAutocomplete = styled(Autocomplete)(({ theme }) => ({
-  '& .MuiTextField-root': {
-    '& .MuiOutlinedInput-root': {
-      '&.Mui-focused fieldset': {
-        borderColor: 'white',
-      },
-    },
-  },
+
   '& .MuiInputLabel-root': {
     color: 'white',
   },
+  '& .MuiInput':{
+    borderRadius: '15px',
+  },
   color: 'inherit',
   '& .MuiInputBase-input': {
+    color: 'white',
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
+
     paddingLeft: `calc(1em + ${theme.spacing(5)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -166,7 +164,7 @@ export default function Appbar({ courses, getCourse }) {
 
           <Search>
             <StyledAutocomplete
-              id="search-bar"
+              style={{ borderRadius: '50%' }}
               freeSolo
               options={courses.map((option) => option.number + " " + option.name)}
               renderInput={(params) => (

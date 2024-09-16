@@ -29,9 +29,11 @@ const DifficultyAvatar = ({ difficulty, size=65 }) => {
          width: size,
          height: size, 
          fontStretch: 'expanded',
-
          fontWeight: 'bold',
-        }}>
+         borderRadius: '1rem'
+        }}
+        variant="square"
+        >
       {difficulty}
     </Avatar>
   );

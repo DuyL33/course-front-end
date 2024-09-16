@@ -62,7 +62,7 @@ const CourseDetail = ({ course, getCourse }) => {
 
   const avgDifficulty = (course) => {
     if (!course || !course.review_ids || course.review_ids.length === 0) {
-      return 0; // or return null, or some other appropriate value
+      return 0;
     }
 
     const totalDifficulty = course.review_ids.reduce((total, review) => {
@@ -107,7 +107,7 @@ const CourseDetail = ({ course, getCourse }) => {
       <CardContent>
         <Grid container spacing={2}>
           <Grid item xs={8} md={11}>
-            <Typography variant="h3" gutterBottom>
+            <Typography variant="h4" gutterBottom>
               {course.number} - {course.name}
             </Typography>
           </Grid>
@@ -123,7 +123,7 @@ const CourseDetail = ({ course, getCourse }) => {
 
             <Stack spacing={2}>
               {currentReviews.map((review, index) => (
-                <Paper key={index} className="review-item" elevation={5} sx={{ padding: 1, width: '100%' }}>
+                <Paper key={index} className="review-item" elevation={5} sx={{ borderRadius: '1rem', padding: 1, width: '100%' }}>
                   <Grid container spacing={5}>
 
                     <Grid item xs={1} md={1}>
@@ -171,10 +171,10 @@ const CourseDetail = ({ course, getCourse }) => {
           </Grid>
           <Grid item xs={false} md={4}>
             <Stack spacing={2}>
-              <Paper className="review-item" elevation={5} sx={{ padding: 2 }} style={{ width: '90%' }}>
+              <Paper className="review-item" elevation={5} sx={{ padding: 2 }} style={{ borderRadius:'1rem', width: '90%' }}>
                 <Typography variant="subtitle2" gutterBottom>
                   What was your grade?
-          </Typography>
+                </Typography>
                 <InputLabel id="demo-simple-select-label">Grade</InputLabel>
                 <Select style={{ width: '100%' }}
                   label="Grade"
@@ -182,7 +182,7 @@ const CourseDetail = ({ course, getCourse }) => {
                   onChange={(e) => setNewReview({ ...newReview, grade: e.target.value, number: course.number })}>
                   <MenuItem value={"A+"}>A+</MenuItem>
                   <MenuItem value={"A"}>A</MenuItem>
-                  <MenuItem value={"A-"}>A</MenuItem>
+                  <MenuItem value={"A-"}>A-</MenuItem>
                   <MenuItem value={"B+"}>B+</MenuItem>
                   <MenuItem value={"B"}>B</MenuItem>
                   <MenuItem value={"B-"}>B-</MenuItem>
@@ -196,7 +196,7 @@ const CourseDetail = ({ course, getCourse }) => {
 
                 </Select>
               </Paper>
-              <Paper className="review-item" elevation={5} sx={{ padding: 2 }} style={{ width: '90%' }}>
+              <Paper className="review-item" elevation={5} sx={{ padding: 2 }} style={{ borderRadius:'1rem', width: '90%' }}>
                 <Typography variant="subtitle2" gutterBottom>
                   How difficult was this course?
           </Typography>
@@ -204,21 +204,8 @@ const CourseDetail = ({ course, getCourse }) => {
                   value={newReview.difficulty || 0}
                   onChange={(e, newValue) => setNewReview({ ...newReview, difficulty: newValue, number: course.number })}
                 />
-                {/* <Slider
-                  aria-label="Temperature"
-                  defaultValue={0}
-                  valueLabelDisplay="auto"
-                  shiftstep={1}
-                  step={1}
-                  marks
-                  min={1}
-                  max={5}
-                  value={newReview.difficulty || 0}
-                  onChange={(e) => setNewReview({ ...newReview, difficulty: e.target.value, number: course.number })}
-                  style={{ width: '100%' }}
-                /> */}
               </Paper>
-              <Paper className="review-item" elevation={5} sx={{ padding: 2 }} style={{ width: '90%' }}>
+              <Paper className="review-item" elevation={5} sx={{ padding: 2 }} style={{ borderRadius:'1rem', width: '90%' }}>
                 <Typography variant="subtitle2" gutterBottom>
                   Write a review
           </Typography>
@@ -233,7 +220,7 @@ const CourseDetail = ({ course, getCourse }) => {
                   style={{ width: '100%' }}
                 />
               </Paper>
-              <Paper className="review-item" elevation={5} sx={{ padding: 2 }} style={{ width: '90%' }}>
+              <Paper className="review-item" elevation={5} sx={{ padding: 2 }} style={{ borderRadius:'1rem', width: '90%' }}>
                 <Button variant="contained" color="success" onClick={handleReviewSubmit} style={{ marginLeft: 'auto', marginRight: 'auto', width: '40%', display: 'block' }}>
                   Submit Review
                 </Button>
