@@ -12,8 +12,8 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import getCourse from '../service/getCourse';
 import { useAuth } from './AuthContext';
-
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -32,18 +32,12 @@ const Search = styled('div')(({ theme }) => ({
 }));
 
 const StyledAutocomplete = styled(Autocomplete)(({ theme }) => ({
-
   '& .MuiInputLabel-root': {
     color: 'white',
   },
-  '& .MuiInput':{
-    borderRadius: '15px',
-  },
-  color: 'inherit',
   '& .MuiInputBase-input': {
     color: 'white',
     padding: theme.spacing(1, 1, 1, 0),
-
     paddingLeft: `calc(1em + ${theme.spacing(5)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -53,7 +47,7 @@ const StyledAutocomplete = styled(Autocomplete)(({ theme }) => ({
   },
 }));
 
-export default function Appbar({ courses, getCourse }) {
+export default function Appbar({ courses }) {
   const { loggedIn, logout } = useAuth();
 
   const handleLogout = () => {
@@ -74,9 +68,6 @@ export default function Appbar({ courses, getCourse }) {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -87,9 +78,6 @@ export default function Appbar({ courses, getCourse }) {
     handleMobileMenuClose();
   };
 
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -130,19 +118,6 @@ export default function Appbar({ courses, getCourse }) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-
-      {/* <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem> */}
     </Menu>
   );
 
@@ -164,7 +139,6 @@ export default function Appbar({ courses, getCourse }) {
 
           <Search>
             <StyledAutocomplete
-              style={{ borderRadius: '50%' }}
               freeSolo
               options={courses.map((option) => option.number + " " + option.name)}
               renderInput={(params) => (
@@ -173,10 +147,12 @@ export default function Appbar({ courses, getCourse }) {
                   label="Search for courses"
                 />
               )}
-              onInputChange={(event, value) => {
-                const courseNumber = value.split(" ")[0]; // Extract course number from input value
-                if (courseNumber) {
-                  handleCourseClick(courseNumber);
+              onChange={(event, value) => {
+                if (value != null){
+                  const courseNumber = value.split(" ")[0];
+                  if (courseNumber) {
+                    handleCourseClick(courseNumber);
+                  }
                 }
               }}
             />
