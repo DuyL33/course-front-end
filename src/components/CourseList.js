@@ -3,7 +3,7 @@ import { Grid } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import getCourse from '../service/getCourse';
-import CourseCard from './CourseCard';
+import CourseCard from '../util/CourseCard';
 
 const CourseList = ({ courses }) => {
     const handleCourseClick = async (courseNumber) => {

@@ -34,7 +34,7 @@ const DifficultyAvatar = ({ difficulty, size=65 }) => {
         }}
         variant="square"
         >
-      {difficulty}
+      {Math.round(difficulty * 10) / 10}
     </Avatar>
   );
 };

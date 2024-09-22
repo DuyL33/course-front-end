@@ -5,13 +5,17 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { default as React, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import getAvgDifficulty from '../service/getAvgDifficulty';
 import getCourse from '../service/getCourse';
 import handleDeleteReview from '../service/handleReviewDelete';
+import formatDate from '../util/dateFormat';
+import DifficultyAvatar from '../util/DifficultyAvatar';
 import { useAuth } from './AuthContext';
-import DifficultyAvatar from './DifficultyAvatar';
 import ReviewForm from './ReviewForm';
+
 const CourseDetail = () => {
   const [course, setCourse] = useState(null);
+  const [averageDiff, setAverageDiff] = useState(null);
   const { roles } = useAuth();
   console.log(roles);
   const { courseNumber } = useParams();
@@ -20,7 +24,10 @@ const CourseDetail = () => {
   useEffect(() => {
     const fetchCourse = async () => {
       const data = await getCourse(courseNumber);
+      const avg = await getAvgDifficulty(courseNumber);
+
       setCourse(data);
+      setAverageDiff(avg);
       if (data && data.number) {
         document.title = data.number;
       }
@@ -35,25 +42,9 @@ const CourseDetail = () => {
     await handleDeleteReview(createdTime);
     const updatedCourse = await getCourse(courseNumber);
     setCourse(updatedCourse);
-
   }
 
-  const avgDifficulty = (course) => {
-    if (!course || !course.review_ids || course.review_ids.length === 0) {
-      return 0;
-    }
 
-    const totalDifficulty = course.review_ids.reduce((total, review) => {
-      return total + parseInt(review.difficulty);
-    }, 0);
-
-    return (totalDifficulty / course.review_ids.length).toFixed(1);
-  };
-
-  const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'short', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
-  };
 
   if (!course) {
     return (
@@ -77,7 +68,7 @@ const CourseDetail = () => {
             </Typography>
           </Grid>
           <Grid item xs={false} md={1} style={{ textAlign: 'left' }}>
-            <DifficultyAvatar difficulty={avgDifficulty(course)} />
+            <DifficultyAvatar difficulty={averageDiff} />
           </Grid>
         </Grid>
 
@@ -120,7 +111,14 @@ const CourseDetail = () => {
               ))}
             </Stack>
 
-            <ReviewForm course={course} getCourse={getCourse} setCourse={setCourse} courseNumber={courseNumber} ></ReviewForm>
+            <ReviewForm course={course}
+              getCourse={getCourse}
+              setCourse={setCourse}
+              courseNumber={courseNumber} 
+              averageDiff={averageDiff} 
+              setAverageDiff={setAverageDiff}
+              getAvgDifficulty={getAvgDifficulty}
+              ></ReviewForm>
 
 
         <Link to="/coursehub" className="back-link">

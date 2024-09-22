@@ -18,6 +18,9 @@ const theme = createTheme({
     secondary: {
       main: '#f50057',
     },
+    white: {
+      main: '#FFFFFF',
+    }
   },
 });
 

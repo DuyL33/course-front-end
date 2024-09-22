@@ -1,15 +1,10 @@
-import AccountCircle from '@mui/icons-material/AccountCircle'; // Import your icon
 import AppBar from '@mui/material/AppBar';
 import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import { alpha, styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import getCourse from '../service/getCourse';
@@ -41,6 +36,7 @@ const StyledAutocomplete = styled(Autocomplete)(({ theme }) => ({
     paddingLeft: `calc(1em + ${theme.spacing(5)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
+    height: '70%',
     [theme.breakpoints.up('md')]: {
       width: '100%',
     },
@@ -62,80 +58,16 @@ export default function Appbar({ courses }) {
     navigate(`/coursehub/${courseNumber}`);
 
   };
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
 
 
-  const menuId = 'primary-search-account-menu';
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-    </Menu>
-  );
-
-  const mobileMenuId = 'primary-search-account-menu-mobile';
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-    </Menu>
-  );
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="primary">
         <Toolbar>
-          <Link to="/coursehub" style={{ textDecoration: 'none' }}>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ display: { xs: 'none', sm: 'block' }, color: 'white' }}
-            >
-              CourseHub
-            </Typography>
-          </Link>
-
+          <Button href="/coursehub" color="white">Course Hub</Button>
 
           <Search>
             <StyledAutocomplete
@@ -161,23 +93,20 @@ export default function Appbar({ courses }) {
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             {loggedIn ? (
               <>
-                <IconButton size="large" edge="end" aria-label="account of current user" color="inherit">
-                  <AccountCircle />
-                </IconButton>
-                <Button color="inherit" onClick={handleLogout}>Logout</Button>
+                <Button variant="outlined" size="small" color="white" onClick={handleLogout}>
+                  Log Out
+                  </Button>
               </>
             ) : (
-                <Link to="/login" style={{ color: 'white' }}>
-                  <Typography variant="h6" noWrap component="div">
+                <Link to="/login" >
+                  <Button variant="outlined" size="small" color="white">
                     Log In
-                </Typography>
+                  </Button>
                 </Link>
               )}
           </Box>
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
     </Box>
   );
 }

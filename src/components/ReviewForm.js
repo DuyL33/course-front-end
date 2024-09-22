@@ -10,8 +10,7 @@ import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { default as React, useState } from 'react';
 import handleSubmitReview from '../service/handleReviewSubmit';
-import CustomSlider from './CustomSlider';
-
+import CustomSlider from '../util/CustomSlider';
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
     paddingLeft: theme.spacing(5),
@@ -21,11 +20,14 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function ReviewForm( {course, getCourse, setCourse, courseNumber}) {
+export default function ReviewForm( {course, getCourse, setCourse, courseNumber, averageDiff, setAverageDiff, getAvgDifficulty}) {
     const submitReview = async () => {
         await handleSubmitReview(newReview);
         const updatedCourse = await getCourse(courseNumber);
+        const avg = await getAvgDifficulty(courseNumber);
+
         setCourse(updatedCourse);
+        setAverageDiff(avg);
         setOpen(false);
     
       };

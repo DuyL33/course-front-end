@@ -1,51 +1,75 @@
 import { Box, Button, Container, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import handleLogin from '../service/handleLogin';
 import { useAuth } from './AuthContext';
+
+
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate();
   const { login } = useAuth();
+  const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  // const signin = async ({username, password}) => {
+  //   try{
+  //     const response = await handleLogin(username, password);
+
+  //     if (!response.ok) {
+  //       throw new Error('Login failed');
+  //     }
+  
+  //     const data = await response.json();
+  //     const token = data.accessToken; // Extract JWT from response
+  //     const roles = data.roles;
+  
+  //     // Use AuthContext login method
+  //     login(token, roles);
+  
+  //     // // Store the token (e.g., in localStorage or context)
+  //     // localStorage.setItem('jwt', token);
+  
+  //     // // Optionally, store user roles and other details
+  //     // localStorage.setItem('roles', JSON.stringify(data.roles));
+      
+  //     // Redirect to /coursehub
+  //     navigate('/coursehub');
+  //     console.log('Login successful');
+  //   }
+  //   catch{
+  //     setError("Check username or password again");
+  //   }
+  // }
+  const signin = async ({ username, password }) => {
     try {
-      const response = await fetch('https://cs-gmu-courses.onrender.com/CS/auth/signin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
-
+      const response = await handleLogin({ username, password });
+  
       if (!response.ok) {
-        throw new Error('Login failed');
+        // Check for different response status codes
+        if (response.status === 401) {
+          throw new Error('Unauthorized: Incorrect username or password');
+        } else {
+          throw new Error(`Login failed with status: ${response.status}`);
+        }
       }
-
-      const data = await response.json();
-      const token = data.accessToken; // Extract JWT from response
+  
+      const data = await response.json(); // Parse JSON only if the request was successful
+      const token = data.accessToken;
       const roles = data.roles;
-
+  
       // Use AuthContext login method
       login(token, roles);
-
-      // // Store the token (e.g., in localStorage or context)
-      // localStorage.setItem('jwt', token);
-
-      // // Optionally, store user roles and other details
-      // localStorage.setItem('roles', JSON.stringify(data.roles));
-
-      // // Redirect or handle successful login
-      
+  
       // Redirect to /coursehub
       navigate('/coursehub');
       console.log('Login successful');
     } catch (error) {
-      setError(error.message);
+      console.error('Error during login:', error.message);
+      setError(error.message); // Display appropriate error message
     }
   };
-
+  
   return (
     <Container component="main" maxWidth="xs">
       <Box
@@ -99,7 +123,7 @@ const Login = () => {
             variant="contained"
             color="primary"
             sx={{ mt: 3, mb: 2 }}
-            onClick={handleLogin}
+            onClick={() => signin({username, password})}
           >
             Login
           </Button>
