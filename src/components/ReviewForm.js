@@ -1,3 +1,4 @@
+import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import { Button, MenuItem, Select, TextField } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
@@ -11,6 +12,8 @@ import Typography from '@mui/material/Typography';
 import { default as React, useState } from 'react';
 import handleSubmitReview from '../service/handleReviewSubmit';
 import CustomSlider from '../util/CustomSlider';
+
+
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
     paddingLeft: theme.spacing(5),
@@ -47,8 +50,8 @@ export default function ReviewForm( {course, getCourse, setCourse, courseNumber,
   };
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Review
+      <Button variant="outlined" startIcon={<AddIcon />} onClick={handleClickOpen}>
+        Add a Review
       </Button>
       <StyledDialog
         fullWidth={'sm'}

@@ -19,7 +19,7 @@ const getDifficultyColor = (difficulty) => {
   };
   
 
-const DifficultyAvatar = ({ difficulty, size=65 }) => {
+const DifficultyAvatar = ({ difficulty, size=55 }) => {
   const color = getDifficultyColor(difficulty);
 
   return (

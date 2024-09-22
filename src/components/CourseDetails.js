@@ -4,15 +4,15 @@ import CardContent from '@mui/material/CardContent';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { default as React, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import getAvgDifficulty from '../service/getAvgDifficulty';
 import getCourse from '../service/getCourse';
 import handleDeleteReview from '../service/handleReviewDelete';
 import formatDate from '../util/dateFormat';
 import DifficultyAvatar from '../util/DifficultyAvatar';
+import reverseReviews from '../util/reverseReviews';
 import { useAuth } from './AuthContext';
 import ReviewForm from './ReviewForm';
-
 const CourseDetail = () => {
   const [course, setCourse] = useState(null);
   const [averageDiff, setAverageDiff] = useState(null);
@@ -59,9 +59,13 @@ const CourseDetail = () => {
   }
 
   return (
-    <Card variant="outlined" sx={{ margin: '10px' }}>
-      <CardContent>
-        <Grid container spacing={2}>
+    <>
+        <Grid container
+          spacing={9}
+          sx={{
+            marginBottom: '1%',
+          }}
+          >
           <Grid item xs={8} md={11}>
             <Typography variant="h4" gutterBottom>
               {course.number} - {course.name}
@@ -73,15 +77,22 @@ const CourseDetail = () => {
         </Grid>
 
 
-            <Stack spacing={2}>
-              {course.review_ids.map((review, index) => (
-                <Paper key={index} className="review-item" elevation={5} sx={{ borderRadius: '1rem', padding: 1, width: '100%' }}>
+        
+            <Stack spacing={2}
+              sx={{
+                marginBottom: '1%',
+              }}
+            >
+              {reverseReviews(course.review_ids).map((review, index) => (
+                <Paper key={index} className="review-item" elevation={5} sx={{ borderRadius: '1rem', padding: 1, width: '70%' }}>
                   <Grid container spacing={5}>
                     <Grid item xs={1} md={1}>
-                      <Typography style={{ fontSize: '0.6rem', fontWeight: 'bold' }} variant="caption" gutterBottom>
+
+                      <Typography style={{ fontSize: '0.5rem', fontWeight: 'bold' }} variant="caption" gutterBottom>
                         DIFFICULTY
                       </Typography>
-                      <DifficultyAvatar difficulty={parseInt(review.difficulty, 10)} size={45} />
+                      <DifficultyAvatar difficulty={parseInt(review.difficulty, 10)} size={42} />
+
                     </Grid>
                     <Grid item xs={9} md={9}>
                       <Typography variant="body1" gutterBottom style={{ fontWeight: 'bold' }}>
@@ -92,7 +103,7 @@ const CourseDetail = () => {
                       </Typography>
                     </Grid>
                     <Grid item xs={2} md={2} sx={{ textAlign: 'right' }}>
-                      <Typography variant="body1" gutterBottom>
+                      <Typography variant="body2" gutterBottom>
                         {formatDate(review.created)}
                       </Typography>
                     </Grid>
@@ -120,12 +131,8 @@ const CourseDetail = () => {
               getAvgDifficulty={getAvgDifficulty}
               ></ReviewForm>
 
+        </>
 
-        <Link to="/coursehub" className="back-link">
-          Back to Courses
-        </Link>
-      </CardContent>
-    </Card>
   );
 };
 
