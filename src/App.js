@@ -2,12 +2,14 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
+import AdminPage from './components/AdminPage';
 import Appbar from './components/Appbar';
 import { AuthProvider } from './components/AuthContext';
 import CourseDetails from './components/CourseDetails';
 import CourseList from './components/CourseList';
 import Login from './components/Login';
 import getCourses from './service/getCourses';
+
 
 const theme = createTheme({
   palette: {
@@ -54,6 +56,7 @@ function AppContent() {
           <Route path="/coursehub" element={<CourseList courses={courses} />} />
           <Route path="/coursehub/:courseNumber" element={<CourseDetails />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/admin" element={<AdminPage courses={courses} getCourses={getCourses} />} />
         </Routes>
       </div>
     </>

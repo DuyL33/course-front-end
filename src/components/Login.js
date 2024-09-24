@@ -12,35 +12,6 @@ const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  // const signin = async ({username, password}) => {
-  //   try{
-  //     const response = await handleLogin(username, password);
-
-  //     if (!response.ok) {
-  //       throw new Error('Login failed');
-  //     }
-  
-  //     const data = await response.json();
-  //     const token = data.accessToken; // Extract JWT from response
-  //     const roles = data.roles;
-  
-  //     // Use AuthContext login method
-  //     login(token, roles);
-  
-  //     // // Store the token (e.g., in localStorage or context)
-  //     // localStorage.setItem('jwt', token);
-  
-  //     // // Optionally, store user roles and other details
-  //     // localStorage.setItem('roles', JSON.stringify(data.roles));
-      
-  //     // Redirect to /coursehub
-  //     navigate('/coursehub');
-  //     console.log('Login successful');
-  //   }
-  //   catch{
-  //     setError("Check username or password again");
-  //   }
-  // }
   const signin = async ({ username, password }) => {
     try {
       const response = await handleLogin({ username, password });

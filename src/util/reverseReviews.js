@@ -1,6 +1,6 @@
 
 const reverseReviews = (reviews) => {
-    return reviews.reverse();
+    return [...reviews].reverse();
 };
 
 export default reverseReviews;

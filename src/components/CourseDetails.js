@@ -60,78 +60,103 @@ const CourseDetail = () => {
 
   return (
     <>
-        <Grid container
-          spacing={9}
-          sx={{
-            marginBottom: '1%',
-          }}
-          >
-          <Grid item xs={8} md={11}>
-            <Typography variant="h4" gutterBottom>
-              {course.number} - {course.name}
-            </Typography>
-          </Grid>
-          <Grid item xs={false} md={1} style={{ textAlign: 'left' }}>
-            <DifficultyAvatar difficulty={averageDiff} />
-          </Grid>
+      <Grid container
+
+        sx={{
+          marginBottom: '1%',
+          marginLeft: '1%'
+        }}
+      >
+        <Grid item xs={8} md={11}>
+          <Typography variant="h4" gutterBottom>
+            {course.number} - {course.name}
+          </Typography>
         </Grid>
+        <Grid item xs={false} md={1} style={{ textAlign: 'left' }}>
+          <DifficultyAvatar difficulty={averageDiff} />
+        </Grid>
+      </Grid>
 
 
-        
-            <Stack spacing={2}
-              sx={{
-                marginBottom: '1%',
-              }}
-            >
-              {reverseReviews(course.review_ids).map((review, index) => (
-                <Paper key={index} className="review-item" elevation={5} sx={{ borderRadius: '1rem', padding: 1, width: '70%' }}>
-                  <Grid container spacing={5}>
-                    <Grid item xs={1} md={1}>
 
-                      <Typography style={{ fontSize: '0.5rem', fontWeight: 'bold' }} variant="caption" gutterBottom>
-                        DIFFICULTY
+      <Stack spacing={2}
+        sx={{
+          marginBottom: '1%',
+          marginLeft: '1%'
+        }}
+      >
+        {reverseReviews(course.review_ids).map((review, index) => (
+          <Paper key={index} className="review-item" elevation={5}
+            sx={{
+              borderRadius: '1rem', padding: 1, width: '70%',
+              transition: 'transform 0.3s, box-shadow 0.3s',
+              '&:hover': {
+                transform: 'scale(1.05)',
+              },
+            }}>
+            <Grid container>
+
+
+              <Grid item xs={1} md={1}>
+
+                <Typography style={{ fontSize: '0.5rem', fontWeight: 'bold' }} variant="caption" gutterBottom>
+                  DIFFICULTY
                       </Typography>
-                      <DifficultyAvatar difficulty={parseInt(review.difficulty, 10)} size={42} />
+                <DifficultyAvatar difficulty={parseInt(review.difficulty, 10)} size={42} />
 
-                    </Grid>
-                    <Grid item xs={9} md={9}>
-                      <Typography variant="body1" gutterBottom style={{ fontWeight: 'bold' }}>
-                        Grade: {review.grade}
+                <Typography style={{ fontSize: '0.5rem', fontWeight: 'bold' }} variant="caption" gutterBottom>
+                  WORK
                       </Typography>
-                      <Typography variant="body2" gutterBottom>
-                        {review.body}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={2} md={2} sx={{ textAlign: 'right' }}>
-                      <Typography variant="body2" gutterBottom>
-                        {formatDate(review.created)}
-                      </Typography>
-                    </Grid>
-                  </Grid>
+                <DifficultyAvatar difficulty={parseInt(review.courseWork, 10)} size={42} />
 
-                  {roles && roles.includes('ROLE_ADMIN') && (
-                    <Button
-                      variant="outlined"
-                      color="error"
-                      onClick={() => deleteReview(review.created)}
-                    >
-                      Delete
-                    </Button>
-                  )}
-                </Paper>
-              ))}
-            </Stack>
+              </Grid>
+              <Grid item xs={2} md={2}>
+                <Typography variant="body1" gutterBottom style={{ fontWeight: 'bold' }}>
+                  Grade: {review.grade}
+                </Typography>
+                <Typography variant="body1" gutterBottom style={{ fontWeight: 'bold' }}>
+                  Prof. {review.professor}
+                </Typography>
+                <Typography variant="body1" gutterBottom style={{ fontWeight: 'bold' }}>
+                  {review.semester} {review.year}
+                </Typography>
+                <Typography variant="body2" gutterBottom>
+                  {formatDate(review.created)}
+                </Typography>
+              </Grid>
 
-            <ReviewForm course={course}
-              getCourse={getCourse}
-              setCourse={setCourse}
-              courseNumber={courseNumber} 
-              averageDiff={averageDiff} 
-              setAverageDiff={setAverageDiff}
-              getAvgDifficulty={getAvgDifficulty}
-              ></ReviewForm>
+              <Grid item xs={5} md={5} sx={{ textAlign: 'left' }}>
+                <Typography variant="body2" gutterBottom>
+                  {review.body}
+                </Typography>
+              </Grid>
 
-        </>
+
+            </Grid>
+
+            {roles && roles.includes('ROLE_ADMIN') && (
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={() => deleteReview(review.created)}
+              >
+                Delete
+              </Button>
+            )}
+          </Paper>
+        ))}
+      </Stack>
+
+      <ReviewForm course={course}
+        getCourse={getCourse}
+        setCourse={setCourse}
+        courseNumber={courseNumber}
+        averageDiff={averageDiff}
+        setAverageDiff={setAverageDiff}
+        getAvgDifficulty={getAvgDifficulty}
+      ></ReviewForm>
+
+    </>
 
   );
 };

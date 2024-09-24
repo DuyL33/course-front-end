@@ -36,7 +36,11 @@ export default function ReviewForm( {course, getCourse, setCourse, courseNumber,
       };
     const [newReview, setNewReview] = useState({
         grade: '',
+        professor: '',
+        semester:'',
+        year:'',
         difficulty: '',
+        courseWork:'',
         body: '',
         number: ''
       });
@@ -79,6 +83,36 @@ export default function ReviewForm( {course, getCourse, setCourse, courseNumber,
         
         <Stack spacing={1}>
                 <Typography variant="subtitle2" gutterBottom>
+                  What year did you take this class?
+                </Typography>
+                <TextField
+                 fullWidth
+                 label="Year"
+                 onChange={(e) => setNewReview({ ...newReview, year: e.target.value, number: course.number })}
+                />
+                <Typography variant="subtitle2" gutterBottom>
+                  Which semester did you tkae this class? 
+                </Typography>
+                <Select
+                  style={{ width: '100%' }}
+                  value={newReview.semester || ''}
+                  onChange={(e) => setNewReview({ ...newReview, semester: e.target.value, number: course.number })}
+                >
+                  <MenuItem value={"Fall"}>Fall</MenuItem>
+                  <MenuItem value={"Spring"}>Spring</MenuItem>
+                  <MenuItem value={"Summer"}>Summer</MenuItem>
+                </Select>
+                <Typography variant="subtitle2" gutterBottom>
+                  Who was your professor?
+                </Typography>
+                <TextField
+                 fullWidth
+                 label="Semester"
+                 onChange={(e) => setNewReview({ ...newReview, professor: e.target.value, number: course.number })}
+                />
+
+
+                <Typography variant="subtitle2" gutterBottom>
                   What was your grade?
                 </Typography>
                 <Select
@@ -100,6 +134,7 @@ export default function ReviewForm( {course, getCourse, setCourse, courseNumber,
                   <MenuItem value={"D-"}>D-</MenuItem>
                   <MenuItem value={"F"}>F</MenuItem>
                 </Select>
+
                 <Typography variant="subtitle2" gutterBottom>
                   How difficult was this course?
                 </Typography>
@@ -107,6 +142,14 @@ export default function ReviewForm( {course, getCourse, setCourse, courseNumber,
                   value={newReview.difficulty || 0}
                   onChange={(e, newValue) => setNewReview({ ...newReview, difficulty: newValue, number: course.number })}
                 />
+                <Typography variant="subtitle2" gutterBottom>
+                  How much course work was it?
+                </Typography>
+                <CustomSlider
+                  value={newReview.courseWork || 0}
+                  onChange={(e, newValue) => setNewReview({ ...newReview, courseWork: newValue, number: course.number })}
+                />
+
                 <Typography variant="subtitle2" gutterBottom>
                   Write a review
                 </Typography>
